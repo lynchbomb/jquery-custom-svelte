@@ -17,6 +17,10 @@ if (!window.document) {
   return;
 }
 
+function methodDeprecatedError(method = 'invoked') {
+  throw new Error(`The jQuery ${method} method is no longer supported and has been deprecated by Pemberly`);
+}
+
 // Support: Firefox 18+
 // Can't be in strict mode, several libs including ASP.NET trace
 // the stack via arguments.caller.callee and Firefox dies if
@@ -40,7 +44,6 @@ var toString = class2type.toString;
 var hasOwn = class2type.hasOwnProperty;
 
 var support = {};
-
 
 
 var
@@ -82,7 +85,8 @@ jQuery.fn = jQuery.prototype = {
   length: 0,
 
   toArray: function() {
-    return slice.call( this );
+    methodDeprecatedError('toArray');
+    // return slice.call( this );
   },
 
   // Get the Nth element in the matched element set OR
@@ -100,16 +104,16 @@ jQuery.fn = jQuery.prototype = {
   // Take an array of elements and push it onto the stack
   // (returning the new matched element set)
   pushStack: function( elems ) {
+    methodDeprecatedError('pushStack');
+    // // Build a new jQuery matched element set
+    // var ret = jQuery.merge( this.constructor(), elems );
 
-    // Build a new jQuery matched element set
-    var ret = jQuery.merge( this.constructor(), elems );
+    // // Add the old object onto the stack (as a reference)
+    // ret.prevObject = this;
+    // ret.context = this.context;
 
-    // Add the old object onto the stack (as a reference)
-    ret.prevObject = this;
-    ret.context = this.context;
-
-    // Return the newly-formed element set
-    return ret;
+    // // Return the newly-formed element set
+    // return ret;
   },
 
   // Execute a callback for every element in the matched set.
@@ -120,13 +124,15 @@ jQuery.fn = jQuery.prototype = {
   },
 
   map: function( callback ) {
-    return this.pushStack( jQuery.map(this, function( elem, i ) {
-      return callback.call( elem, i, elem );
-    }));
+    methodDeprecatedError('map');
+    // return this.pushStack( jQuery.map(this, function( elem, i ) {
+    //   return callback.call( elem, i, elem );
+    // }));
   },
 
   slice: function() {
-    return this.pushStack( slice.apply( this, arguments ) );
+    methodDeprecatedError('slice');
+    // return this.pushStack( slice.apply( this, arguments ) );
   },
 
   first: function() {
@@ -134,24 +140,30 @@ jQuery.fn = jQuery.prototype = {
   },
 
   last: function() {
-    return this.eq( -1 );
+    methodDeprecatedError('last');
+    // return this.eq( -1 );
   },
 
   eq: function( i ) {
-    var len = this.length,
-      j = +i + ( i < 0 ? len : 0 );
-    return this.pushStack( j >= 0 && j < len ? [ this[j] ] : [] );
+    methodDeprecatedError('eq');
+    // var len = this.length,
+    //   j = +i + ( i < 0 ? len : 0 );
+    // return this.pushStack( j >= 0 && j < len ? [ this[j] ] : [] );
   },
 
   end: function() {
-    return this.prevObject || this.constructor(null);
+    methodDeprecatedError('end');
+    // return this.prevObject || this.constructor(null);
   },
 
   // For internal use only.
   // Behaves like an Array's method, not like a jQuery method.
-  push: push,
-  sort: arr.sort,
-  splice: arr.splice
+  push: methodDeprecatedError('push'),
+  // push: method,
+  sort: methodDeprecatedError('sort'),
+  //sort: arr.sort,
+  splice: methodDeprecatedError('splice')
+  //splice: arr.splice
 };
 
 jQuery.extend = jQuery.fn.extend = function() {
@@ -2684,7 +2696,8 @@ jQuery.fn.extend({
     return this.pushStack( winnow(this, selector || [], false) );
   },
   not: function( selector ) {
-    return this.pushStack( winnow(this, selector || [], true) );
+    methodDeprecatedError('not');
+    // return this.pushStack( winnow(this, selector || [], true) );
   },
   is: function( selector ) {
     return !!winnow(
@@ -2921,17 +2934,19 @@ jQuery.fn.extend({
   },
 
   add: function( selector, context ) {
-    return this.pushStack(
-      jQuery.unique(
-        jQuery.merge( this.get(), jQuery( selector, context ) )
-      )
-    );
+    methodDeprecatedError('add');
+    // return this.pushStack(
+    //   jQuery.unique(
+    //     jQuery.merge( this.get(), jQuery( selector, context ) )
+    //   )
+    // );
   },
 
   addBack: function( selector ) {
-    return this.add( selector == null ?
-      this.prevObject : this.prevObject.filter(selector)
-    );
+    methodDeprecatedError('addBack');
+    // return this.add( selector == null ?
+    //   this.prevObject : this.prevObject.filter(selector)
+    // );
   }
 });
 
@@ -2949,34 +2964,43 @@ jQuery.each({
     return jQuery.dir( elem, "parentNode" );
   },
   parentsUntil: function( elem, i, until ) {
-    return jQuery.dir( elem, "parentNode", until );
+    methodDeprecatedError('parentsUntil');
+    // return jQuery.dir( elem, "parentNode", until );
   },
   next: function( elem ) {
-    return sibling( elem, "nextSibling" );
+    methodDeprecatedError('next');
+    // return sibling( elem, "nextSibling" );
   },
   prev: function( elem ) {
-    return sibling( elem, "previousSibling" );
+    methodDeprecatedError('prev');
+    // return sibling( elem, "previousSibling" );
   },
   nextAll: function( elem ) {
-    return jQuery.dir( elem, "nextSibling" );
+    methodDeprecatedError('nextAll');
+    // return jQuery.dir( elem, "nextSibling" );
   },
   prevAll: function( elem ) {
-    return jQuery.dir( elem, "previousSibling" );
+    methodDeprecatedError('prevAll');
+    // return jQuery.dir( elem, "previousSibling" );
   },
   nextUntil: function( elem, i, until ) {
-    return jQuery.dir( elem, "nextSibling", until );
+    methodDeprecatedError('nextUntil');
+    // return jQuery.dir( elem, "nextSibling", until );
   },
   prevUntil: function( elem, i, until ) {
-    return jQuery.dir( elem, "previousSibling", until );
+    methodDeprecatedError('prevUntil');
+    // return jQuery.dir( elem, "previousSibling", until );
   },
   siblings: function( elem ) {
     return jQuery.sibling( ( elem.parentNode || {} ).firstChild, elem );
   },
   children: function( elem ) {
-    return jQuery.sibling( elem.firstChild );
+    methodDeprecatedError('children');
+    // return jQuery.sibling( elem.firstChild );
   },
   contents: function( elem ) {
-    return elem.contentDocument || jQuery.merge( [], elem.childNodes );
+    methodDeprecatedError('contents');
+    // return elem.contentDocument || jQuery.merge( [], elem.childNodes );
   }
 }, function( name, fn ) {
   jQuery.fn[ name ] = function( until, selector ) {
@@ -3379,28 +3403,29 @@ jQuery.extend({
 
   // Handle when the DOM is ready
   ready: function( wait ) {
+    methodDeprecatedError('ready');
 
-    // Abort if there are pending holds or we're already ready
-    if ( wait === true ? --jQuery.readyWait : jQuery.isReady ) {
-      return;
-    }
+    // // Abort if there are pending holds or we're already ready
+    // if ( wait === true ? --jQuery.readyWait : jQuery.isReady ) {
+    //   return;
+    // }
 
-    // Remember that the DOM is ready
-    jQuery.isReady = true;
+    // // Remember that the DOM is ready
+    // jQuery.isReady = true;
 
-    // If a normal DOM Ready event fired, decrement, and wait if need be
-    if ( wait !== true && --jQuery.readyWait > 0 ) {
-      return;
-    }
+    // // If a normal DOM Ready event fired, decrement, and wait if need be
+    // if ( wait !== true && --jQuery.readyWait > 0 ) {
+    //   return;
+    // }
 
-    // If there are functions bound, to execute
-    readyList.resolveWith( document, [ jQuery ] );
+    // // If there are functions bound, to execute
+    // readyList.resolveWith( document, [ jQuery ] );
 
-    // Trigger any bound ready events
-    if ( jQuery.fn.triggerHandler ) {
-      jQuery( document ).triggerHandler( "ready" );
-      jQuery( document ).off( "ready" );
-    }
+    // // Trigger any bound ready events
+    // if ( jQuery.fn.triggerHandler ) {
+    //   jQuery( document ).triggerHandler( "ready" );
+    //   jQuery( document ).off( "ready" );
+    // }
   }
 });
 
@@ -3742,7 +3767,8 @@ jQuery.extend({
   },
 
   removeData: function( elem, name ) {
-    data_user.remove( elem, name );
+    methodDeprecatedError('removeData');
+    // data_user.remove( elem, name );
   },
 
   // TODO: Now that all calls to _data and _removeData have been replaced
@@ -3927,68 +3953,72 @@ jQuery.extend({
 
 jQuery.fn.extend({
   queue: function( type, data ) {
-    var setter = 2;
-
-    if ( typeof type !== "string" ) {
-      data = type;
-      type = "fx";
-      setter--;
-    }
-
-    if ( arguments.length < setter ) {
-      return jQuery.queue( this[0], type );
-    }
-
-    return data === undefined ?
-      this :
-      this.each(function() {
-        var queue = jQuery.queue( this, type, data );
-
-        // Ensure a hooks for this queue
-        jQuery._queueHooks( this, type );
-
-        if ( type === "fx" && queue[0] !== "inprogress" ) {
-          jQuery.dequeue( this, type );
-        }
-      });
+    methodDeprecatedError('queue');
+    // var setter = 2;
+    //
+    // if ( typeof type !== "string" ) {
+    //   data = type;
+    //   type = "fx";
+    //   setter--;
+    // }
+    //
+    // if ( arguments.length < setter ) {
+    //   return jQuery.queue( this[0], type );
+    // }
+    //
+    // return data === undefined ?
+    //   this :
+    //   this.each(function() {
+    //     var queue = jQuery.queue( this, type, data );
+    //
+    //     // Ensure a hooks for this queue
+    //     jQuery._queueHooks( this, type );
+    //
+    //     if ( type === "fx" && queue[0] !== "inprogress" ) {
+    //       jQuery.dequeue( this, type );
+    //     }
+    //   });
   },
   dequeue: function( type ) {
-    return this.each(function() {
-      jQuery.dequeue( this, type );
-    });
+    methodDeprecatedError('dequeue');
+    // return this.each(function() {
+    //   jQuery.dequeue( this, type );
+    // });
   },
   clearQueue: function( type ) {
-    return this.queue( type || "fx", [] );
+    methodDeprecatedError('clearQueue');
+    // return this.queue( type || "fx", [] );
   },
   // Get a promise resolved when queues of a certain type
   // are emptied (fx is the type by default)
   promise: function( type, obj ) {
-    var tmp,
-      count = 1,
-      defer = jQuery.Deferred(),
-      elements = this,
-      i = this.length,
-      resolve = function() {
-        if ( !( --count ) ) {
-          defer.resolveWith( elements, [ elements ] );
-        }
-      };
-
-    if ( typeof type !== "string" ) {
-      obj = type;
-      type = undefined;
-    }
-    type = type || "fx";
-
-    while ( i-- ) {
-      tmp = data_priv.get( elements[ i ], type + "queueHooks" );
-      if ( tmp && tmp.empty ) {
-        count++;
-        tmp.empty.add( resolve );
-      }
-    }
-    resolve();
-    return defer.promise( obj );
+    methodDeprecatedError('promise');
+    // var tmp,
+    //   count = 1,
+    //   defer = jQuery.Deferred(),
+    //   elements = this,
+    //   i = this.length,
+    //   resolve = function() {
+    //     if ( !( --count ) ) {
+    //       defer.resolveWith( elements, [ elements ] );
+    //     }
+    //   };
+    //
+    // if ( typeof type !== "string" ) {
+    //   obj = type;
+    //   type = undefined;
+    // }
+    // type = type || "fx";
+    //
+    // while ( i-- ) {
+    //   tmp = data_priv.get( elements[ i ], type + "queueHooks" );
+    //   if ( tmp && tmp.empty ) {
+    //     count++;
+    //     tmp.empty.add( resolve );
+    //   }
+    // }
+    // resolve();
+    // return defer.promise( obj );
   }
 });
 var pnum = (/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/).source;
@@ -4882,10 +4912,11 @@ jQuery.fn.extend({
     });
   },
   triggerHandler: function( type, data ) {
-    var elem = this[0];
-    if ( elem ) {
-      return jQuery.event.trigger( type, data, elem, true );
-    }
+    methodDeprecatedError('triggerHandler');
+    // var elem = this[0];
+    // if ( elem ) {
+    //   return jQuery.event.trigger( type, data, elem, true );
+    // }
   }
 });
 
@@ -5204,28 +5235,31 @@ jQuery.fn.extend({
   },
 
   prepend: function() {
-    return this.domManip( arguments, function( elem ) {
-      if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
-        var target = manipulationTarget( this, elem );
-        target.insertBefore( elem, target.firstChild );
-      }
-    });
+    methodDeprecatedError('prepend');
+    // return this.domManip( arguments, function( elem ) {
+    //   if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
+    //     var target = manipulationTarget( this, elem );
+    //     target.insertBefore( elem, target.firstChild );
+    //   }
+    // });
   },
 
   before: function() {
-    return this.domManip( arguments, function( elem ) {
-      if ( this.parentNode ) {
-        this.parentNode.insertBefore( elem, this );
-      }
-    });
+    methodDeprecatedError('before');
+    // return this.domManip( arguments, function( elem ) {
+    //   if ( this.parentNode ) {
+    //     this.parentNode.insertBefore( elem, this );
+    //   }
+    // });
   },
 
   after: function() {
-    return this.domManip( arguments, function( elem ) {
-      if ( this.parentNode ) {
-        this.parentNode.insertBefore( elem, this.nextSibling );
-      }
-    });
+    methodDeprecatedError('after');
+    // return this.domManip( arguments, function( elem ) {
+    //   if ( this.parentNode ) {
+    //     this.parentNode.insertBefor`( elem, this.nextSibling );
+    //   }
+    // });
   },
 
   remove: function( selector, keepData /* Internal Use Only */ ) {
@@ -5250,30 +5284,32 @@ jQuery.fn.extend({
   },
 
   empty: function() {
-    var elem,
-      i = 0;
-
-    for ( ; (elem = this[i]) != null; i++ ) {
-      if ( elem.nodeType === 1 ) {
-
-        // Prevent memory leaks
-        jQuery.cleanData( getAll( elem, false ) );
-
-        // Remove any remaining nodes
-        elem.textContent = "";
-      }
-    }
-
-    return this;
+    methodDeprecatedError('empty');
+    // var elem,
+    //   i = 0;
+    //
+    // for ( ; (elem = this[i]) != null; i++ ) {
+    //   if ( elem.nodeType === 1 ) {
+    //
+    //     // Prevent memory leaks
+    //     jQuery.cleanData( getAll( elem, false ) );
+    //
+    //     // Remove any remaining nodes
+    //     elem.textContent = "";
+    //   }
+    // }
+    //
+    // return this;
   },
 
   clone: function( dataAndEvents, deepDataAndEvents ) {
-    dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
-    deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
-
-    return this.map(function() {
-      return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
-    });
+    methodDeprecatedError('clone');
+    // dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
+    // deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
+    //
+    // return this.map(function() {
+    //   return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
+    // });
   },
 
   html: function( value ) {
@@ -5316,119 +5352,118 @@ jQuery.fn.extend({
   },
 
   replaceWith: function() {
-    var arg = arguments[ 0 ];
+    methodDeprecatedError('replaceWith');
+    // var arg = arguments[ 0 ];
 
-    // Make the changes, replacing each context element with the new content
-    this.domManip( arguments, function( elem ) {
-      arg = this.parentNode;
+    // // Make the changes, replacing each context element with the new content
+    // this.domManip( arguments, function( elem ) {
+    //   arg = this.parentNode;
 
-      jQuery.cleanData( getAll( this ) );
+    //   jQuery.cleanData( getAll( this ) );
 
-      if ( arg ) {
-        arg.replaceChild( elem, this );
-      }
-    });
+    //   if ( arg ) {
+    //     arg.replaceChild( elem, this );
+    //   }
+    // });
 
-    // Force removal if there was no new content (e.g., from empty arguments)
-    return arg && (arg.length || arg.nodeType) ? this : this.remove();
+    // // Force removal if there was no new content (e.g., from empty arguments)
+    // return arg && (arg.length || arg.nodeType) ? this : this.remove();
   },
 
   detach: function( selector ) {
-    return this.remove( selector, true );
+    methodDeprecatedError('detach');
+    // return this.remove( selector, true );
   },
 
   domManip: function( args, callback ) {
-
-    // Flatten any nested arrays
-    args = concat.apply( [], args );
-
-    var fragment, first, scripts, hasScripts, node, doc,
-      i = 0,
-      l = this.length,
-      set = this,
-      iNoClone = l - 1,
-      value = args[ 0 ],
-      isFunction = jQuery.isFunction( value );
-
-    // We can't cloneNode fragments that contain checked, in WebKit
-    if ( isFunction ||
-        ( l > 1 && typeof value === "string" &&
-          !support.checkClone && rchecked.test( value ) ) ) {
-      return this.each(function( index ) {
-        var self = set.eq( index );
-        if ( isFunction ) {
-          args[ 0 ] = value.call( this, index, self.html() );
-        }
-        self.domManip( args, callback );
-      });
-    }
-
-    if ( l ) {
-      fragment = jQuery.buildFragment( args, this[ 0 ].ownerDocument, false, this );
-      first = fragment.firstChild;
-
-      if ( fragment.childNodes.length === 1 ) {
-        fragment = first;
-      }
-
-      if ( first ) {
-        scripts = jQuery.map( getAll( fragment, "script" ), disableScript );
-        hasScripts = scripts.length;
-
-        // Use the original fragment for the last item instead of the first because it can end up
-        // being emptied incorrectly in certain situations (#8070).
-        for ( ; i < l; i++ ) {
-          node = fragment;
-
-          if ( i !== iNoClone ) {
-            node = jQuery.clone( node, true, true );
-
-            // Keep references to cloned scripts for later restoration
-            if ( hasScripts ) {
-              // Support: QtWebKit
-              // jQuery.merge because push.apply(_, arraylike) throws
-              jQuery.merge( scripts, getAll( node, "script" ) );
-            }
-          }
-
-          callback.call( this[ i ], node, i );
-        }
-
-        if ( hasScripts ) {
-          doc = scripts[ scripts.length - 1 ].ownerDocument;
-
-          // Reenable scripts
-          jQuery.map( scripts, restoreScript );
-
-          // Evaluate executable scripts on first document insertion
-          for ( i = 0; i < hasScripts; i++ ) {
-            node = scripts[ i ];
-            if ( rscriptType.test( node.type || "" ) &&
-              !data_priv.access( node, "globalEval" ) && jQuery.contains( doc, node ) ) {
-
-              if ( node.src ) {
-                // Optional AJAX dependency, but won't run scripts if not present
-                if ( jQuery._evalUrl ) {
-                  jQuery._evalUrl( node.src );
-                }
-              } else {
-                jQuery.globalEval( node.textContent.replace( rcleanScript, "" ) );
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return this;
+    methodDeprecatedError('domManip');
+    // // Flatten any nested arrays
+    // args = concat.apply( [], args );
+    //
+    // var fragment, first, scripts, hasScripts, node, doc,
+    //   i = 0,
+    //   l = this.length,
+    //   set = this,
+    //   iNoClone = l - 1,
+    //   value = args[ 0 ],
+    //   isFunction = jQuery.isFunction( value );
+    //
+    // // We can't cloneNode fragments that contain checked, in WebKit
+    // if ( isFunction ||
+    //     ( l > 1 && typeof value === "string" &&
+    //       !support.checkClone && rchecked.test( value ) ) ) {
+    //   return this.each(function( index ) {
+    //     var self = set.eq( index );
+    //     if ( isFunction ) {
+    //       args[ 0 ] = value.call( this, index, self.html() );
+    //     }
+    //     self.domManip( args, callback );
+    //   });
+    // }
+    //
+    // if ( l ) {
+    //   fragment = jQuery.buildFragment( args, this[ 0 ].ownerDocument, false, this );
+    //   first = fragment.firstChild;
+    //
+    //   if ( fragment.childNodes.length === 1 ) {
+    //     fragment = first;
+    //   }
+    //
+    //   if ( first ) {
+    //     scripts = jQuery.map( getAll( fragment, "script" ), disableScript );
+    //     hasScripts = scripts.length;
+    //
+    //     // Use the original fragment for the last item instead of the first because it can end up
+    //     // being emptied incorrectly in certain situations (#8070).
+    //     for ( ; i < l; i++ ) {
+    //       node = fragment;
+    //
+    //       if ( i !== iNoClone ) {
+    //         node = jQuery.clone( node, true, true );
+    //
+    //         // Keep references to cloned scripts for later restoration
+    //         if ( hasScripts ) {
+    //           // Support: QtWebKit
+    //           // jQuery.merge because push.apply(_, arraylike) throws
+    //           jQuery.merge( scripts, getAll( node, "script" ) );
+    //         }
+    //       }
+    //
+    //       callback.call( this[ i ], node, i );
+    //     }
+    //
+    //     if ( hasScripts ) {
+    //       doc = scripts[ scripts.length - 1 ].ownerDocument;
+    //
+    //       // Reenable scripts
+    //       jQuery.map( scripts, restoreScript );
+    //
+    //       // Evaluate executable scripts on first document insertion
+    //       for ( i = 0; i < hasScripts; i++ ) {
+    //         node = scripts[ i ];
+    //         if ( rscriptType.test( node.type || "" ) &&
+    //           !data_priv.access( node, "globalEval" ) && jQuery.contains( doc, node ) ) {
+    //
+    //           if ( node.src ) {
+    //             // Optional AJAX dependency, but won't run scripts if not present
+    //             if ( jQuery._evalUrl ) {
+    //               jQuery._evalUrl( node.src );
+    //             }
+    //           } else {
+    //             jQuery.globalEval( node.textContent.replace( rcleanScript, "" ) );
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    //
+    // return this;
   }
 });
 
 jQuery.each({
   appendTo: "append",
-  prependTo: "prepend",
-  insertBefore: "before",
-  insertAfter: "after",
   replaceAll: "replaceWith"
 }, function( name, original ) {
   jQuery.fn[ name ] = function( selector ) {
@@ -5449,6 +5484,18 @@ jQuery.each({
 
     return this.pushStack( ret );
   };
+});
+
+jQuery.fn.extend({
+  prependTo: function() {
+    methodDeprecatedError('prependTo');
+  },
+  insertBefore: function() {
+    methodDeprecatedError('insertBefore');
+  },
+  insertAfter: function() {
+    methodDeprecatedError('insertAfter');
+  }
 });
 
 
@@ -6113,23 +6160,25 @@ jQuery.fn.extend({
     }, name, value, arguments.length > 1 );
   },
   show: function() {
-    return showHide( this, true );
+    methodDeprecatedError('show');
+    // return showHide( this, true );
   },
   hide: function() {
     return showHide( this );
   },
   toggle: function( state ) {
-    if ( typeof state === "boolean" ) {
-      return state ? this.show() : this.hide();
-    }
+    methodDeprecatedError('toggle');
+    // if ( typeof state === "boolean" ) {
+    //   return state ? this.show() : this.hide();
+    // }
 
-    return this.each(function() {
-      if ( isHidden( this ) ) {
-        jQuery( this ).show();
-      } else {
-        jQuery( this ).hide();
-      }
-    });
+    // return this.each(function() {
+    //   if ( isHidden( this ) ) {
+    //     jQuery( this ).show();
+    //   } else {
+    //     jQuery( this ).hide();
+    //   }
+    // });
   }
 });
 
@@ -6683,12 +6732,13 @@ jQuery.speed = function( speed, easing, fn ) {
 
 jQuery.fn.extend({
   fadeTo: function( speed, to, easing, callback ) {
-
-    // Show any hidden elements after setting opacity to 0
-    return this.filter( isHidden ).css( "opacity", 0 ).show()
-
-      // Animate to the value specified
-      .end().animate({ opacity: to }, speed, easing, callback );
+    methodDeprecatedError('fadeTo');
+    //
+    // // Show any hidden elements after setting opacity to 0
+    // return this.filter( isHidden ).css( "opacity", 0 ).show()
+    //
+    //   // Animate to the value specified
+    //   .end().animate({ opacity: to }, speed, easing, callback );
   },
   animate: function( prop, speed, easing, callback ) {
     var empty = jQuery.isEmptyObject( prop ),
@@ -6709,95 +6759,97 @@ jQuery.fn.extend({
       this.queue( optall.queue, doAnimation );
   },
   stop: function( type, clearQueue, gotoEnd ) {
-    var stopQueue = function( hooks ) {
-      var stop = hooks.stop;
-      delete hooks.stop;
-      stop( gotoEnd );
-    };
+    methodDeprecatedError('stop');
+    // var stopQueue = function( hooks ) {
+    //   var stop = hooks.stop;
+    //   delete hooks.stop;
+    //   stop( gotoEnd );
+    // };
 
-    if ( typeof type !== "string" ) {
-      gotoEnd = clearQueue;
-      clearQueue = type;
-      type = undefined;
-    }
-    if ( clearQueue && type !== false ) {
-      this.queue( type || "fx", [] );
-    }
+    // if ( typeof type !== "string" ) {
+    //   gotoEnd = clearQueue;
+    //   clearQueue = type;
+    //   type = undefined;
+    // }
+    // if ( clearQueue && type !== false ) {
+    //   this.queue( type || "fx", [] );
+    // }
 
-    return this.each(function() {
-      var dequeue = true,
-        index = type != null && type + "queueHooks",
-        timers = jQuery.timers,
-        data = data_priv.get( this );
+    // return this.each(function() {
+    //   var dequeue = true,
+    //     index = type != null && type + "queueHooks",
+    //     timers = jQuery.timers,
+    //     data = data_priv.get( this );
 
-      if ( index ) {
-        if ( data[ index ] && data[ index ].stop ) {
-          stopQueue( data[ index ] );
-        }
-      } else {
-        for ( index in data ) {
-          if ( data[ index ] && data[ index ].stop && rrun.test( index ) ) {
-            stopQueue( data[ index ] );
-          }
-        }
-      }
+    //   if ( index ) {
+    //     if ( data[ index ] && data[ index ].stop ) {
+    //       stopQueue( data[ index ] );
+    //     }
+    //   } else {
+    //     for ( index in data ) {
+    //       if ( data[ index ] && data[ index ].stop && rrun.test( index ) ) {
+    //         stopQueue( data[ index ] );
+    //       }
+    //     }
+    //   }
 
-      for ( index = timers.length; index--; ) {
-        if ( timers[ index ].elem === this && (type == null || timers[ index ].queue === type) ) {
-          timers[ index ].anim.stop( gotoEnd );
-          dequeue = false;
-          timers.splice( index, 1 );
-        }
-      }
+    //   for ( index = timers.length; index--; ) {
+    //     if ( timers[ index ].elem === this && (type == null || timers[ index ].queue === type) ) {
+    //       timers[ index ].anim.stop( gotoEnd );
+    //       dequeue = false;
+    //       timers.splice( index, 1 );
+    //     }
+    //   }
 
-      // Start the next in the queue if the last step wasn't forced.
-      // Timers currently will call their complete callbacks, which
-      // will dequeue but only if they were gotoEnd.
-      if ( dequeue || !gotoEnd ) {
-        jQuery.dequeue( this, type );
-      }
-    });
+    //   // Start the next in the queue if the last step wasn't forced.
+    //   // Timers currently will call their complete callbacks, which
+    //   // will dequeue but only if they were gotoEnd.
+    //   if ( dequeue || !gotoEnd ) {
+    //     jQuery.dequeue( this, type );
+    //   }
+    // });
   },
   finish: function( type ) {
-    if ( type !== false ) {
-      type = type || "fx";
-    }
-    return this.each(function() {
-      var index,
-        data = data_priv.get( this ),
-        queue = data[ type + "queue" ],
-        hooks = data[ type + "queueHooks" ],
-        timers = jQuery.timers,
-        length = queue ? queue.length : 0;
-
-      // Enable finishing flag on private data
-      data.finish = true;
-
-      // Empty the queue first
-      jQuery.queue( this, type, [] );
-
-      if ( hooks && hooks.stop ) {
-        hooks.stop.call( this, true );
-      }
-
-      // Look for any active animations, and finish them
-      for ( index = timers.length; index--; ) {
-        if ( timers[ index ].elem === this && timers[ index ].queue === type ) {
-          timers[ index ].anim.stop( true );
-          timers.splice( index, 1 );
-        }
-      }
-
-      // Look for any animations in the old queue and finish them
-      for ( index = 0; index < length; index++ ) {
-        if ( queue[ index ] && queue[ index ].finish ) {
-          queue[ index ].finish.call( this );
-        }
-      }
-
-      // Turn off finishing flag
-      delete data.finish;
-    });
+    methodDeprecatedError('finish');
+    // if ( type !== false ) {
+    //   type = type || "fx";
+    // }
+    // return this.each(function() {
+    //   var index,
+    //     data = data_priv.get( this ),
+    //     queue = data[ type + "queue" ],
+    //     hooks = data[ type + "queueHooks" ],
+    //     timers = jQuery.timers,
+    //     length = queue ? queue.length : 0;
+    //
+    //   // Enable finishing flag on private data
+    //   data.finish = true;
+    //
+    //   // Empty the queue first
+    //   jQuery.queue( this, type, [] );
+    //
+    //   if ( hooks && hooks.stop ) {
+    //     hooks.stop.call( this, true );
+    //   }
+    //
+    //   // Look for any active animations, and finish them
+    //   for ( index = timers.length; index--; ) {
+    //     if ( timers[ index ].elem === this && timers[ index ].queue === type ) {
+    //       timers[ index ].anim.stop( true );
+    //       timers.splice( index, 1 );
+    //     }
+    //   }
+    //
+    //   // Look for any animations in the old queue and finish them
+    //   for ( index = 0; index < length; index++ ) {
+    //     if ( queue[ index ] && queue[ index ].finish ) {
+    //       queue[ index ].finish.call( this );
+    //     }
+    //   }
+    //
+    //   // Turn off finishing flag
+    //   delete data.finish;
+    // });
   }
 });
 
@@ -6814,14 +6866,23 @@ jQuery.each([ "toggle", "show", "hide" ], function( i, name ) {
 jQuery.each({
   slideDown: genFx("show"),
   slideUp: genFx("hide"),
-  slideToggle: genFx("toggle"),
-  fadeIn: { opacity: "show" },
-  fadeOut: { opacity: "hide" },
-  fadeToggle: { opacity: "toggle" }
+  slideToggle: genFx("toggle")
 }, function( name, props ) {
   jQuery.fn[ name ] = function( speed, easing, callback ) {
     return this.animate( props, speed, easing, callback );
   };
+});
+
+jQuery.fn.extend({
+  fadeToggle: function() {
+    methodDeprecatedError('fadeToggle');
+  },
+  fadeOut: function() {
+    methodDeprecatedError('fadeOut');
+  },
+  fadeIn: function() {
+    methodDeprecatedError('fadeIn');
+  },
 });
 
 jQuery.timers = [];
@@ -6879,15 +6940,16 @@ jQuery.fx.speeds = {
 // Based off of the plugin by Clint Helfers, with permission.
 // http://blindsignals.com/index.php/2009/07/jquery-delay/
 jQuery.fn.delay = function( time, type ) {
-  time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
-  type = type || "fx";
-
-  return this.queue( type, function( next, hooks ) {
-    var timeout = setTimeout( next, time );
-    hooks.stop = function() {
-      clearTimeout( timeout );
-    };
-  });
+  methodDeprecatedError('delay');
+  // time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
+  // type = type || "fx";
+  //
+  // return this.queue( type, function( next, hooks ) {
+  //   var timeout = setTimeout( next, time );
+  //   hooks.stop = function() {
+  //     clearTimeout( timeout );
+  //   };
+  // });
 };
 
 
@@ -7062,9 +7124,10 @@ jQuery.fn.extend({
   },
 
   removeProp: function( name ) {
-    return this.each(function() {
-      delete this[ jQuery.propFix[ name ] || name ];
-    });
+    methodDeprecatedError('removeProp');
+    // return this.each(function() {
+    //   delete this[ jQuery.propFix[ name ] || name ];
+    // });
   }
 });
 
@@ -7234,49 +7297,50 @@ jQuery.fn.extend({
   },
 
   toggleClass: function( value, stateVal ) {
-    var type = typeof value;
+    methodDeprecatedError('toggleClass');
+    // var type = typeof value;
 
-    if ( typeof stateVal === "boolean" && type === "string" ) {
-      return stateVal ? this.addClass( value ) : this.removeClass( value );
-    }
+    // if ( typeof stateVal === "boolean" && type === "string" ) {
+    //   return stateVal ? this.addClass( value ) : this.removeClass( value );
+    // }
 
-    if ( jQuery.isFunction( value ) ) {
-      return this.each(function( i ) {
-        jQuery( this ).toggleClass( value.call(this, i, this.className, stateVal), stateVal );
-      });
-    }
+    // if ( jQuery.isFunction( value ) ) {
+    //   return this.each(function( i ) {
+    //     jQuery( this ).toggleClass( value.call(this, i, this.className, stateVal), stateVal );
+    //   });
+    // }
 
-    return this.each(function() {
-      if ( type === "string" ) {
-        // Toggle individual class names
-        var className,
-          i = 0,
-          self = jQuery( this ),
-          classNames = value.match( rnotwhite ) || [];
+    // return this.each(function() {
+    //   if ( type === "string" ) {
+    //     // Toggle individual class names
+    //     var className,
+    //       i = 0,
+    //       self = jQuery( this ),
+    //       classNames = value.match( rnotwhite ) || [];
 
-        while ( (className = classNames[ i++ ]) ) {
-          // Check each className given, space separated list
-          if ( self.hasClass( className ) ) {
-            self.removeClass( className );
-          } else {
-            self.addClass( className );
-          }
-        }
+    //     while ( (className = classNames[ i++ ]) ) {
+    //       // Check each className given, space separated list
+    //       if ( self.hasClass( className ) ) {
+    //         self.removeClass( className );
+    //       } else {
+    //         self.addClass( className );
+    //       }
+    //     }
 
-      // Toggle whole class name
-      } else if ( type === strundefined || type === "boolean" ) {
-        if ( this.className ) {
-          // store className if set
-          data_priv.set( this, "__className__", this.className );
-        }
+    //   // Toggle whole class name
+    //   } else if ( type === strundefined || type === "boolean" ) {
+    //     if ( this.className ) {
+    //       // store className if set
+    //       data_priv.set( this, "__className__", this.className );
+    //     }
 
-        // If the element has a class name or if we're passed `false`,
-        // then remove the whole classname (if there was one, the above saved it).
-        // Otherwise bring back whatever was previously saved (if anything),
-        // falling back to the empty string if nothing was stored.
-        this.className = this.className || value === false ? "" : data_priv.get( this, "__className__" ) || "";
-      }
-    });
+    //     // If the element has a class name or if we're passed `false`,
+    //     // then remove the whole classname (if there was one, the above saved it).
+    //     // Otherwise bring back whatever was previously saved (if anything),
+    //     // falling back to the empty string if nothing was stored.
+    //     this.className = this.className || value === false ? "" : data_priv.get( this, "__className__" ) || "";
+    //   }
+    // });
   },
 
   hasClass: function( selector ) {
@@ -7455,37 +7519,91 @@ jQuery.each([ "radio", "checkbox" ], function() {
 
 // Return jQuery for attributes-only inclusion
 
-
-jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
-  "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-  "change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
-
+jQuery.each( ("blur focus scroll click").split(" "), function( i, name ) {
   // Handle event binding
   jQuery.fn[ name ] = function( data, fn ) {
-    return arguments.length > 0 ?
-      this.on( name, null, data, fn ) :
-      this.trigger( name );
+    return arguments.length > 0 ? this.on( name, null, data, fn ) : this.trigger( name );
   };
 });
 
 jQuery.fn.extend({
+  focusin: function() {
+    methodDeprecatedError('focusin');
+  },
+
+  focusout: function() {
+    methodDeprecatedError('focusout');
+  },
+
+  load: function() {
+    methodDeprecatedError('load');
+  },
+
+  resize: function() {
+    methodDeprecatedError('resize');
+  },
+
+  scroll: function() {
+    methodDeprecatedError('scroll');
+  },
+
+  unload: function() {
+    methodDeprecatedError('unload');
+  },
+
+  dblclick: function() {
+    methodDeprecatedError('dblclick');
+  },
+
+  mousedown: function() {
+    methodDeprecatedError('mousedown');
+  },
+
+  mouseup: function() {
+    methodDeprecatedError('mouseup');
+  },
+
+  mousemove: function() {
+    methodDeprecatedError('mousemove');
+  },
+
+  mouseover: function() {
+    methodDeprecatedError('mouseover');
+  },
+
+  mouseout: function() {
+    methodDeprecatedError('mouseout');
+  },
+
+  mouseenter: function() {
+    methodDeprecatedError('mouseenter');
+  },
+
+  mouseleave: function() {
+    methodDeprecatedError('mouseleave');
+  },
+
   hover: function( fnOver, fnOut ) {
-    return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
+    methodDeprecatedError('hover');
+    // return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
   },
 
   bind: function( types, data, fn ) {
-    return this.on( types, null, data, fn );
+    methodDeprecatedError('bind');
   },
   unbind: function( types, fn ) {
-    return this.off( types, null, fn );
+    methodDeprecatedError('unbind');
+    // return this.off( types, null, fn );
   },
 
   delegate: function( selector, types, data, fn ) {
-    return this.on( types, selector, data, fn );
+    methodDeprecatedError('delegate');
+    // return this.on( types, selector, data, fn );
   },
   undelegate: function( selector, types, fn ) {
+    methodDeprecatedError('undelegate');
     // ( namespace ) or ( selector, types [, fn] )
-    return arguments.length === 1 ? this.off( selector, "**" ) : this.off( types, selector || "**", fn );
+    // return arguments.length === 1 ? this.off( selector, "**" ) : this.off( types, selector || "**", fn );
   }
 });
 
@@ -8345,39 +8463,43 @@ jQuery.fn.extend({
   },
 
   wrapInner: function( html ) {
-    if ( jQuery.isFunction( html ) ) {
-      return this.each(function( i ) {
-        jQuery( this ).wrapInner( html.call(this, i) );
-      });
-    }
+    methodDeprecatedError('wrapInner');
 
-    return this.each(function() {
-      var self = jQuery( this ),
-        contents = self.contents();
+    // if ( jQuery.isFunction( html ) ) {
+    //   return this.each(function( i ) {
+    //     jQuery( this ).wrapInner( html.call(this, i) );
+    //   });
+    // }
 
-      if ( contents.length ) {
-        contents.wrapAll( html );
+    // return this.each(function() {
+    //   var self = jQuery( this ),
+    //     contents = self.contents();
 
-      } else {
-        self.append( html );
-      }
-    });
+    //   if ( contents.length ) {
+    //     contents.wrapAll( html );
+
+    //   } else {
+    //     self.append( html );
+    //   }
+    // });
   },
 
   wrap: function( html ) {
-    var isFunction = jQuery.isFunction( html );
+    methodDeprecatedError('wrap');
+    // var isFunction = jQuery.isFunction( html );
 
-    return this.each(function( i ) {
-      jQuery( this ).wrapAll( isFunction ? html.call(this, i) : html );
-    });
+    // return this.each(function( i ) {
+    //   jQuery( this ).wrapAll( isFunction ? html.call(this, i) : html );
+    // });
   },
 
   unwrap: function() {
-    return this.parent().each(function() {
-      if ( !jQuery.nodeName( this, "body" ) ) {
-        jQuery( this ).replaceWith( this.childNodes );
-      }
-    }).end();
+    methodDeprecatedError('unwrap');
+    // return this.parent().each(function() {
+    //   if ( !jQuery.nodeName( this, "body" ) ) {
+    //     jQuery( this ).replaceWith( this.childNodes );
+    //   }
+    // }).end();
   }
 });
 
@@ -8465,7 +8587,8 @@ jQuery.param = function( a, traditional ) {
 
 jQuery.fn.extend({
   serialize: function() {
-    return jQuery.param( this.serializeArray() );
+    methodDeprecatedError('serialize');
+    // return jQuery.param( this.serializeArray() );
   },
   serializeArray: function() {
     return this.map(function() {
@@ -8871,10 +8994,31 @@ jQuery.fn.load = function( url, params, callback ) {
 
 
 // Attach a bunch of functions for handling common AJAX events
-jQuery.each( [ "ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend" ], function( i, type ) {
-  jQuery.fn[ type ] = function( fn ) {
-    return this.on( type, fn );
-  };
+// jQuery.each( [ "", "ajaxStop", "", "ajaxSuccess", "" ], function( i, type ) {
+//   jQuery.fn[ type ] = function( fn ) {
+//     return this.on( type, fn );
+//   };
+// });
+
+jQuery.fn.extend({
+  ajaxComplete: function() {
+    methodDeprecatedError('ajaxComplete');
+  },
+  ajaxError: function() {
+    methodDeprecatedError('ajaxError');
+  },
+  ajaxSend: function() {
+    methodDeprecatedError('ajaxSend');
+  },
+  ajaxStart: function() {
+    methodDeprecatedError('ajaxStart');
+  },
+  ajaxStop: function() {
+    methodDeprecatedError('ajaxStop');
+  },
+  ajaxSuccess: function() {
+    methodDeprecatedError('ajaxSuccess');
+  }
 });
 
 
@@ -9023,20 +9167,21 @@ jQuery.fn.extend({
   },
 
   offsetParent: function() {
-    return this.map(function() {
-      var offsetParent = this.offsetParent || docElem;
-
-      while ( offsetParent && ( !jQuery.nodeName( offsetParent, "html" ) && jQuery.css( offsetParent, "position" ) === "static" ) ) {
-        offsetParent = offsetParent.offsetParent;
-      }
-
-      return offsetParent || docElem;
-    });
+    methodDeprecatedError('offsetParent');
+    // return this.map(function() {
+    //   var offsetParent = this.offsetParent || docElem;
+    //
+    //   while ( offsetParent && ( !jQuery.nodeName( offsetParent, "html" ) && jQuery.css( offsetParent, "position" ) === "static" ) ) {
+    //     offsetParent = offsetParent.offsetParent;
+    //   }
+    //
+    //   return offsetParent || docElem;
+    // });
   }
 });
 
 // Create scrollLeft and scrollTop methods
-jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( method, prop ) {
+jQuery.each( { scrollTop: "pageYOffset" }, function( method, prop ) {
   var top = "pageYOffset" === prop;
 
   jQuery.fn[ method ] = function( val ) {
@@ -9058,6 +9203,12 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
       }
     }, method, val, arguments.length, null );
   };
+});
+
+jQuery.fn.extend({
+  scrollLeft: function() {
+    methodDeprecatedError('scrollLeft');
+  }
 });
 
 // Support: Safari<7+, Chrome<37+
@@ -9126,7 +9277,8 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 
 // The number of elements contained in the matched element set
 jQuery.fn.size = function() {
-  return this.length;
+  methodDeprecatedError('size');
+  // return this.length;
 };
 
 jQuery.fn.andSelf = jQuery.fn.addBack;
